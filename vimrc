@@ -29,6 +29,7 @@ let g:mapleader = ','
 
 " 开启语法高亮
 syntax on
+set colorcolumn=79
 
 " install bundles
 if filereadable(expand("~/.vimrc.bundles"))
@@ -88,7 +89,7 @@ set noswapfile
   " " set undodir=/tmp/vimundo/
 " endif
 
-set wildignore=*.swp,*.bak,*.pyc,*.class,.svn
+set wildignore=*.swp,*.bak,*.pyc,*.class,.svn,.git,__pycache__,node_modules
 
 " 突出显示当前列
 set cursorcolumn
@@ -102,7 +103,7 @@ set t_ti= t_te=
 
 
 " 鼠标暂不启用, 键盘党....
-set mouse-=a
+" set mouse-=a
 " 启用鼠标
 " set mouse=a
 " Hide the mouse cursor while typing
@@ -227,19 +228,19 @@ set ttyfast
 set nrformats=
 
 " 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
-set relativenumber number
-au FocusLost * :set norelativenumber number
-au FocusGained * :set relativenumber
+"set relativenumber number
+"au FocusLost * :set norelativenumber number
+"au FocusGained * :set relativenumber
 " 插入模式下用绝对行号, 普通模式下用相对
-autocmd InsertEnter * :set norelativenumber number
-autocmd InsertLeave * :set relativenumber
+"autocmd InsertEnter * :set norelativenumber number
+"autocmd InsertLeave * :set relativenumber
 function! NumberToggle()
   if(&relativenumber == 1)
     set norelativenumber number
   else
     set relativenumber
   endif
-endfunc
+ endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
 
 " 防止tmux下vim的背景色显示异常
@@ -441,8 +442,8 @@ nnoremap <silent> g* g*zz
 noremap <silent><leader>/ :nohls<CR>
 
 " switch # *
-nnoremap # *
-nnoremap * #
+" nnoremap # *
+" nnoremap * #
 
 " for # indent, python文件中输入新行时#号注释不切回行首
 autocmd BufNewFile,BufRead *.py inoremap # X<c-h>#
@@ -592,7 +593,7 @@ function! AutoSetFileHead()
     "如果文件类型为python
     if &filetype == 'python'
         call setline(1, "\#!/usr/bin/env python")
-        call append(1, "\# encoding: utf-8")
+"        call append(1, "\# encoding: utf-8")
     endif
 
     normal G
@@ -644,9 +645,9 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Monaco:h14
+    set guifont=Monaco:h15
     if has("gui_gtk2")   "GTK2
-        set guifont=Monaco\ 12,Monospace\ 12
+        set guifont=Monaco\ 14,Monospace\ 14
     endif
     set guioptions-=T
     set guioptions+=e
@@ -656,19 +657,28 @@ if has("gui_running")
     set showtabline=1
     set linespace=2
     set noimd
+    set iminsert=0
+    set imsearch=0
+    se imd
+    au InsertEnter * se noimd
+    au InsertLeave * se imd
+    au FocusGained * se imd
     set t_Co=256
 endif
 
 
-
 " theme主题
-set background=dark
+" set background=dark
 set t_Co=256
 
-colorscheme solarized
-" colorscheme molokai
+" colorscheme solarized
+colorscheme molokai
 " colorscheme desert
 
+if has("gui_vimr")
+  set background=dark
+  colorscheme solarized
+endif
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
@@ -684,7 +694,3 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-
-
-

@@ -47,10 +47,30 @@ Plug 'Raimondi/delimitMate'
 " 自动补全html/xml标签
 Plug 'docunext/closetag.vim'
 
+Plug 'Shougo/neomru.vim'
+
+Plug 'Shougo/unite.vim'
+
+Plug 'Yggdroot/LeaderF'
+
 " quick edit
 " 快速注释
 Plug 'scrooloose/nerdcommenter'
 
+" 缩进参考线
+Plug 'Yggdroot/indentLine'
+
+" Autopep8
+Plug 'tell-k/vim-autopep8'
+
+" vim for vue
+Plug 'posva/vim-vue'
+
+" function! DoRemote(arg)
+  " UpdateRemotePlugins
+" endfunction
+" Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+" Plug 'zchee/deoplete-jedi'
 
 " 快速加入修改环绕字符
 " for repeat -> enhance surround.vim, . to repeat command
@@ -60,7 +80,7 @@ Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
 Plug 'bronson/vim-trailing-whitespace'
 " easyalign
 " 快速赋值语句对齐
-Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-easy-align'
 
 " quick movement
 " easymotion
@@ -119,7 +139,7 @@ Plug 'airblade/vim-gitgutter'
 
 " gundo
 " edit history, 可以查看回到某个历史状态
-Plug 'sjl/gundo.vim'
+" Pug 'sjl/gundo.vim'
 
 " view
 " airline
@@ -351,7 +371,7 @@ call plug#end()
 
 " YouCompleteMe {{{
     "youcompleteme  默认tab  s-tab 和自动补全冲突
-    "let g:ycm_key_list_select_completion=['<c-n>']
+    let g:ycm_key_list_select_completion=['<c-n>']
     let g:ycm_key_list_select_completion = ['<Down>']
     "let g:ycm_key_list_previous_completion=['<c-p>']
     let g:ycm_key_list_previous_completion = ['<Up>']
@@ -360,6 +380,8 @@ call plug#end()
     let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
     let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
     let g:ycm_collect_identifiers_from_tags_files = 1
+    " let g:ycm_server_python_interpreter = "~/.pyenv/versions/3.5.1/bin/python"
+    " let g:ycm_server_python_interpreter = "/usr/local/bin/python3"
     " 开启语法关键字补全
     let g:ycm_seed_identifiers_with_syntax=1
 
@@ -388,6 +410,11 @@ call plug#end()
         \ 'tagbar' : 1,
         \ 'gitcommit' : 1,
         \}
+" }}}
+
+" deoplete {{{
+    let g:python_host_prog = '/usr/local/bin/python2'
+    let g:python3_host_prog = '/usr/local/bin/python3'
 " }}}
 
 
@@ -522,12 +549,12 @@ call plug#end()
     let g:ctrlp_mruf_max=500
     let g:ctrlp_follow_symlinks=1
     " 如果安装了ag, 使用ag
-    " if executable('ag')
-    " " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " " ag is fast enough that CtrlP doesn't need to cache
-    " let g:ctrlp_use_caching = 0
-    " endif
+    if executable('ag')
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " ag is fast enough that CtrlP doesn't need to cache
+        let g:ctrlp_use_caching = 0
+    endif
 
     " ctrlpfunky
     " ctrlp插件1 - 不用ctag进行函数快速跳转
@@ -656,7 +683,7 @@ call plug#end()
 " nerdtree nerdtreetabs {{{
     map <leader>n :NERDTreeToggle<CR>
     let NERDTreeHighlightCursorline=1
-    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$', '__pycache__', 'node_modules']
     "close vim if the only window left open is a NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
     " s/v 分屏打开文件
